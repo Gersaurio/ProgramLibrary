@@ -1,6 +1,7 @@
-ID,Titulo, Género,ISBN,Editorial,Autor(es)
+ID,Título,Género,ISBN,Editorial,Autor(es)
 1,Ficciones,cuento,9788499089508,DEBOLSILLO,Jorge Luis Borges
 2,El Valle del Terror,novela,9788415089421,Plutón,Arthur Conan Doyle
 3,El Libro de Arena,cuento,9788499089522,DEBOLSILLO,Jorge Luis Borges
 4,La Isla del Tesoro,novela,9788466794992,Anaya,Robert Louis Stevenson
 5,El Héroe de las Mil Caras,mito,9788412213003,Atalanta,Joseph Campbell
+6,El Miedo en el Perú Siglos XVI al XX,historia,9789972426902,FONDO EDITORIAL PUCP,Claudia Rosas Lauro

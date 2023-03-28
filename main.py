@@ -31,6 +31,46 @@ class Book:
         #Imprime el csv ocultando el index, todos los campos se muestran al mismo nivel
         return print(data.to_string(index=False),"\n")
 
+    def add_book(): 
+        num_books = int(input("Ingrese la cantidad de libros a agregar: "))
+
+        # Leer el archivo csv existente en un DataFrame.
+        current_books = pd.read_csv('books.csv', index_col=0)
+
+        # Obtener el último ID registrado.
+        last_id = current_books.index.max()
+        
+        for i in range(num_books):
+            titulo = input("\nIngrese el título: ")
+            genero = input("Ingrese el género: ")
+            isbn = input("Ingrese el ISBN: ")
+            editorial = input("Ingrese la editorial: ")
+            autor = input("Ingrese el autor (para dos o más, ingrese separados por comas): ")
+
+            # Incrementar el ID del nuevo libro
+            last_id += 1
+            id = last_id
+                  
+            #Crear un nuevo DataFrame con los datos ingresados por el usuario.
+            new_book = pd.DataFrame({
+                "Título": [titulo], 
+                "Género": [genero], 
+                "ISBN": [isbn], 
+                "Editorial": [editorial], 
+                "Autor(es)": [autor]},
+                index=[id]) 
+
+            # Concatenar los dos DataFrames (el nuevo y el existente).
+            current_books = pd.concat([current_books, new_book])
+
+            print(f"\nSe ha agregado el libro con ID: {id}\n")
+            print(new_book.to_string(index=False))
+    
+        # Escribir el DataFrame concatenado en el archivo csv.
+        current_books.to_csv('books.csv', index_label='ID')
+ 
+        print(f"\nSe agregó {num_books} libro(s) en total\n")
+
 
 #Menu Interactivo
 
@@ -68,4 +108,8 @@ elif option_number == "2":
     time.sleep(1)
     Book.list_books()
 
-
+#Opcion 3
+elif option_number == "3":
+    print("Inicializando módulo de registro...\n")
+    time.sleep(1)
+    Book.add_book()
