@@ -19,6 +19,7 @@ py -m venv env
 ## Uso
 El usuario podrá escoger un total de 11 opciones del menú interactivo. Se incluye una opción para salir del programa. 
 
+![Menu](https://user-images.githubusercontent.com/113312690/228149116-e45d6d4b-c42b-4f2b-8b41-82960994adba.JPG)
 
 ## Desarrollador por:
 Gerson D. Vargas Polo @Gersaurio
