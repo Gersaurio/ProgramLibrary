@@ -3,10 +3,6 @@ import pandas as pd
 import time
 from csv import writer
 
-# os.system("clear")
-data = pd.read_csv('books.csv')
-
-
 MAGENTA = '\033[35m'
 CYAN = '\033[36m'
 YELLOW = '\033[33m'
@@ -24,16 +20,20 @@ class Book:
         self.autor = autor
 
     def load_books():
-        #"\n" salto de línea luego de mostrar la data
-        return print(data.head(3).to_string(index=False),"\n")
+        # Leer el archivo csv existente en un DataFrame.
+        current_books = pd.read_csv('books.csv')
+        top_titles = current_books.head(3)[["ID", "Título","Autor(es)"]]
+        print(top_titles.to_string(index=False))
 
     def list_books():
-        #Imprime el csv ocultando el index, todos los campos se muestran al mismo nivel
-        return print(data.to_string(index=False),"\n")
+        # Leer el archivo csv existente en un DataFrame y resetear el índice.
+        current_books = pd.read_csv('books.csv')
+        # Imprime el DataFrame como un string, todos los campos se muestran al mismo nivel.
+        print(current_books.to_string(index=False),"\n")
 
-    def add_book(): 
+    def add_books(): 
         num_books = int(input("Ingrese la cantidad de libros a agregar: "))
-
+        
         # Leer el archivo csv existente en un DataFrame.
         current_books = pd.read_csv('books.csv', index_col=0)
 
@@ -71,11 +71,43 @@ class Book:
  
         print(f"\nSe agregó {num_books} libro(s) en total\n")
 
+    def delete_books():
+        current_books = pd.read_csv('books.csv', index_col=0)
+        Book.list_books()        
+        book_id = int(input("Indique el ID del libro que desea eliminar: "))
+
+        # Encontrar el índice del libro a borrar en el DataFrame.
+        book_index = current_books.index.get_loc(book_id)
+
+        # Confirmar la acción de borrar el libro.
+        confirm = input(f"\n¿Está seguro de que desea borrar el libro con ID {book_id}? (S/N): ").upper()
+
+        if confirm == "S":
+            # Borrar el libro del DataFrame.
+            current_books = current_books.drop(book_id)
+
+            # Guardar los cambios en el archivo CSV.
+            current_books.to_csv('books.csv', index_label='ID')
+            print(f"\nSe ha borrado el libro con ID {book_id}.\n")
+        else:
+            print("\nNo se ha borrado ningún libro.\n")
+
+
+       
+
+
+
+
+
+
 
 #Menu Interactivo
 
-print(YELLOW+"\n📚 Bienvenido a Program Library 📚 "+ RESET,GREEN + "\nColoque el número correspondiente a su solicitud"+ RESET)
-options = [ "Opción 1: Leer archivo csv y cargar 3 libros", 
+exit_program = False
+while not exit_program:
+
+    print(YELLOW+"\n📚 Bienvenido a Program Library 📚 "+ RESET,GREEN + "\nColoque el número correspondiente a su solicitud"+ RESET)
+    options = [ "Opción 1: Leer archivo csv y cargar 3 libros", 
             "Opción 2: Listar libros", 
             "Opción 3: Agregar libros", 
             "Opción 4: Eliminar libros",  
@@ -86,30 +118,46 @@ options = [ "Opción 1: Leer archivo csv y cargar 3 libros",
             "Opcion 10: Guardar libros en archivo",
             "Opción 11: Salir del programa"]
 
-print("\nPor favor, elige una opción: \n")
-for i, option in enumerate(options):
-    print(CYAN+f"{option}"+RESET)
+    print("\nPor favor, elige una opción: \n") 
+    for i, option in enumerate(options):
+        print(CYAN+f"{option}"+RESET)
 
-option_number = str(input(GREEN +"\nIngrese el número: "+RESET))
-while option_number not in ["1","2","3","5","6","7","8","9","10","11"]:
-  option_number = input(RED+"Debes colocar números del 1 al 11."+RESET+GREEN +" Ingresa nuevamente tu respuesta: "+RESET)
+    option_number = str(input(GREEN +"\nIngrese el número: "+RESET))
+    while option_number not in ["1","2","3","4","5","6","7","8","9","10","11"]:
+        option_number = input(RED+"Debes colocar números del 1 al 11."+RESET+GREEN +" Ingresa nuevamente tu respuesta: "+RESET)
   
-print(GREEN+f"\nHas escogido la Opción {option_number}"+RESET)
+    print(GREEN+f"\nHas escogido la Opción {option_number}"+RESET)
 
-#Opcion 1
-if option_number == "1":   
-    print("Leyendo archivo csv y cargando los tres primeros libros...\n")
-    time.sleep(1)
-    Book.load_books()
+    #Opcion 1
+    if option_number == "1":   
+        print("Leyendo archivo csv y cargando los tres primeros libros...\n")
+        time.sleep(1)
+        Book.load_books()
+        input(GREEN+"Presione ENTER para volver al menú principal."+RESET)
 
-#Opcion 2
-elif option_number == "2":
-    print("Listando libros...\n")
-    time.sleep(1)
-    Book.list_books()
+    #Opcion 2
+    elif option_number == "2":
+        print("Listando libros...\n")
+        time.sleep(1)
+        Book.list_books()
+        input(GREEN+"Presione ENTER para volver al menú principal."+RESET)
 
-#Opcion 3
-elif option_number == "3":
-    print("Inicializando módulo de registro...\n")
-    time.sleep(1)
-    Book.add_book()
+    #Opcion 3
+    elif option_number == "3":
+        print("Inicializando módulo de registro...\n")
+        time.sleep(1)
+        Book.add_books()
+        input(GREEN+"Presione ENTER para volver al menú principal."+RESET)
+
+    #Opcion 4
+    elif option_number == "4":
+        print("Inicializando modulo de eliminación...\n")
+        time.sleep(1)
+        Book.delete_books()
+        input(GREEN+"Presione ENTER para volver al menú principal."+RESET)
+    
+    #Opcion 11
+    elif option_number == "11":
+        print("Saliendo del programa...\nGracias por usar Program Library\n")
+        time.sleep(1)
+        exit_program = True
